@@ -1,0 +1,41 @@
+:root {
+  /* Brand Colors */
+  --brand-blue: #0061B0;
+  --brand-blue-dark: #0078d4;
+  --brand-blue-light: #489CB7;
+  --brand-teal: #0678A6;
+
+  /* Neutral Colors */
+  --black: #000000;
+  --white: #FFFFFF;
+  --gray-light: #EBF2FA;
+
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
+  --spacing-2xl: 64px;
+
+  /* Border Radius */
+  --radius-sm: 15px;
+  --radius-md: 45px;
+  --radius-lg: 70px;
+}
+
+/* Custom Utility Classes */
+.blur-effect {
+  backdrop-filter: blur(150px);
+  background: rgba(217, 217, 217, 0.01);
+}
+
+.glass-effect {
+  backdrop-filter: blur(150px);
+  background: rgba(217, 217, 217, 0.01);
+}
+
+.glow-blue {
+  filter: blur(250px);
+  fill: var(--brand-blue);
+}

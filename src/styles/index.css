@@ -1,0 +1,87 @@
+@import './tailwind.css';
+@import './theme.css';
+
+/* Global styles for Drishyam Media website */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family: 'Inter', sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Make navigation items clickable */
+[data-name="NavBar"] p,
+[data-name="NavBar"] div[class*="text"] {
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+[data-name="NavBar"] p:hover,
+[data-name="NavBar"] div[class*="text"]:hover {
+  opacity: 0.8;
+  color: var(--brand-blue);
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* Ensure figma components render at full width */
+[data-name="home page"],
+[data-name="graphic services"],
+[data-name="web services"],
+[data-name="video services"],
+[data-name="testimonials"] {
+  width: 100vw;
+  min-height: 100vh;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1440px) {
+  [data-name="home page"],
+  [data-name="graphic services"],
+  [data-name="web services"],
+  [data-name="video services"],
+  [data-name="testimonials"] {
+    transform: scale(calc(100vw / 1440));
+    transform-origin: top center;
+  }
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
