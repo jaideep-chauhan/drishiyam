@@ -13,22 +13,24 @@ const CARDS = [
   { poster: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=533&fit=crop' },
   { poster: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=533&fit=crop' },
   { poster: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=533&fit=crop' },
+  { poster: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400&h=533&fit=crop' },
+  { poster: 'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=400&h=533&fit=crop' },
+  { poster: 'https://images.unsplash.com/photo-1554080353-a576cf803bda?w=400&h=533&fit=crop' },
+  { poster: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=533&fit=crop' },
 ];
 
 export default function HomePage() {
   const navigate = useNavigate();
 
-  // Track each card's logical position on the infinite track
-  const [cardPositions, setCardPositions] = useState([-2, -1, 0, 1, 2]);
-  const prevPositionsRef = useRef([-2, -1, 0, 1, 2]);
+  const [cardPositions, setCardPositions] = useState([-4, -3, -2, -1, 0, 1, 2, 3, 4]);
+  const prevPositionsRef = useRef([-4, -3, -2, -1, 0, 1, 2, 3, 4]);
   const autoPlayRef = useRef(null);
   const touchStartRef = useRef(null);
 
-  // Responsive card spacing
   const getSpacingValue = () => {
     if (typeof window === 'undefined') return 220;
     const w = window.innerWidth;
-    return w >= 1024 ? 240 : w >= 768 ? 200 : 160;
+    return w >= 1024 ? Math.min(w / 6, 250) : w >= 768 ? Math.min(w / 4.5, 175) : Math.min(w / 3.5, 120);
   };
   const [spacing, setSpacing] = useState(getSpacingValue);
 
@@ -36,8 +38,8 @@ export default function HomePage() {
     setCardPositions(prev => {
       const newPositions = prev.map(p => p - 1);
       const minIdx = newPositions.indexOf(Math.min(...newPositions));
-      if (newPositions[minIdx] <= -3) {
-        newPositions[minIdx] = 3;
+      if (newPositions[minIdx] <= -5) {
+        newPositions[minIdx] = 4;
       }
       return newPositions;
     });
@@ -47,8 +49,8 @@ export default function HomePage() {
     setCardPositions(prev => {
       const newPositions = prev.map(p => p + 1);
       const maxIdx = newPositions.indexOf(Math.max(...newPositions));
-      if (newPositions[maxIdx] >= 3) {
-        newPositions[maxIdx] = -3;
+      if (newPositions[maxIdx] >= 5) {
+        newPositions[maxIdx] = -4;
       }
       return newPositions;
     });
@@ -59,7 +61,7 @@ export default function HomePage() {
   }, [cardPositions]);
 
   useEffect(() => {
-    autoPlayRef.current = setInterval(goNext, 3500);
+    autoPlayRef.current = setInterval(goNext, 5000);
     return () => clearInterval(autoPlayRef.current);
   }, [goNext]);
 
@@ -85,7 +87,7 @@ export default function HomePage() {
       if (diff > 0) goNext(); else goPrev();
     }
     touchStartRef.current = null;
-    autoPlayRef.current = setInterval(goNext, 3500);
+    autoPlayRef.current = setInterval(goNext, 5000);
   };
 
   return (
@@ -101,26 +103,24 @@ export default function HomePage() {
       {/* Hero Section */}
       <style>{`
         html, body { overflow-x: hidden; width: 100%; }
-        .hero-carousel{position:relative;width:100%;height:280px;perspective:1200px;perspective-origin:center center}
-        .hero-card{position:absolute;left:50%;top:50%;width:210px;height:280px;border-radius:16px;overflow:hidden;border:3px solid rgba(0,97,176,.4);cursor:pointer;will-change:transform,opacity;transform-style:preserve-3d}
-        .hero-card.is-centered{border-color:#0061b0;box-shadow:0 0 50px rgba(0,97,176,.3),0 20px 60px rgba(0,0,0,.4)}
-        .hero-card:not(.is-centered){filter:brightness(.65)}
+        .hero-carousel{position:relative;width:100%;height:320px;perspective:1800px;perspective-origin:center center}
+        .hero-card{position:absolute;left:50%;top:50%;width:240px;height:320px;border-radius:20px;overflow:hidden;border:2px solid rgba(255,255,255,.15);cursor:pointer;will-change:transform,opacity;transform-style:preserve-3d;box-shadow:0 20px 60px rgba(0,0,0,.5)}
         .hero-card video,.hero-card img{width:100%;height:100%;object-fit:cover;display:block}
         .hero-card .play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
         .hero-card:hover .play-btn{opacity:1}
         .hero-card .play-btn span{width:48px;height:48px;background:#0061b0;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,97,176,.5)}
         .hero-card .play-btn span::after{content:'';border-left:16px solid white;border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:3px}
-        @media(min-width:768px){.hero-carousel{height:320px;perspective:1400px}.hero-card{width:240px;height:320px}}
-        @media(min-width:1024px){.hero-carousel{height:347px;perspective:1600px}.hero-card{width:260px;height:347px}}
+        @media(min-width:768px){.hero-carousel{height:450px}.hero-card{width:280px;height:380px}}
+        @media(min-width:1024px){.hero-carousel{height:520px}.hero-card{width:320px;height:430px}}
       `}</style>
 
-      <section style={{ paddingTop: '120px', paddingBottom: '80px', paddingLeft: '32px', paddingRight: '32px', position: 'relative' }}>
+      <section style={{ paddingTop: '100px', paddingBottom: '40px', paddingLeft: '0', paddingRight: '0', position: 'relative', width: '100%' }}>
         {/* Text Content */}
-        <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '900px', margin: '0 auto 64px', textAlign: 'center' }}>
-          <h1 style={{ fontSize: 'clamp(32px, 5vw, 60px)', fontWeight: 'bold', color: 'white', lineHeight: 1.2, marginBottom: '24px' }}>
+        <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '900px', margin: '0 auto 40px', textAlign: 'center' }}>
+          <h1 style={{ fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: 'bold', color: 'white', lineHeight: 1.15, marginBottom: '28px', fontFamily: "'Inter', sans-serif" }}>
             Supercharge your brand with viral <span style={{ color: '#0061b0' }}>signature clips</span>
           </h1>
-          <p style={{ fontSize: 'clamp(14px, 2vw, 17px)', color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, marginBottom: 0, maxWidth: '800px', margin: '0 auto' }}>
+          <p style={{ fontSize: 'clamp(16px, 2.2vw, 20px)', color: 'rgba(255,255,255,0.8)', lineHeight: 1.65, maxWidth: '800px', margin: '0 auto', fontFamily: "'Inter', sans-serif" }}>
             If you're a busy creator with no time to edit or post consistently on social media but still recognize the need to grow your brand faster, then this is for you.
           </p>
         </div>
@@ -131,31 +131,33 @@ export default function HomePage() {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           onMouseEnter={() => clearInterval(autoPlayRef.current)}
-          onMouseLeave={() => { autoPlayRef.current = setInterval(goNext, 3500); }}
+          onMouseLeave={() => { autoPlayRef.current = setInterval(goNext, 5000); }}
         >
           <div className="hero-carousel" role="region" aria-label="Video carousel">
             {CARDS.map((card, i) => {
               const position = cardPositions[i];
               const prevPosition = prevPositionsRef.current[i];
-              const isWrapping = Math.abs(position - prevPosition) > 4;
+              const isWrapping = Math.abs(position - prevPosition) > 6;
               const isCenter = position === 0;
-              const visible = Math.abs(position) <= 2;
+              const visible = Math.abs(position) <= 3;
 
-              const rotateY = position * -30;
-              const translateZ = -Math.abs(position) * 80;
-              const scale = isCenter ? 1 : 0.85;
-              const cardOpacity = visible ? (isCenter ? 1 : Math.max(0.6, 1 - Math.abs(position) * 0.12)) : 0;
-              const zIdx = 10 - Math.abs(position);
+              const absPos = Math.abs(position);
+              const angleMap = { 0: 0, 1: 30, 2: 55, 3: 65, 4: 75 };
+              const rotateY = position === 0 ? 0 : (position > 0 ? -1 : 1) * (angleMap[absPos] || 75);
+              const translateZ = position === 0 ? 0 : -absPos * 150;
+              const scale = absPos === 0 ? 0.7 : absPos === 1 ? 0.85 : 1.0;
+              const cardOpacity = absPos <= 2 ? 1 : absPos <= 3 ? 0.3 : 0;
+              const zIdx = absPos <= 2 ? absPos + 1 : 0;
 
               return (
                 <div
                   key={i}
-                  className={`hero-card${isCenter ? ' is-centered' : ''}`}
+                  className="hero-card"
                   style={{
                     transform: `translate(-50%, -50%) translateX(${position * spacing}px) rotateY(${rotateY}deg) translateZ(${translateZ}px) scale(${scale})`,
                     opacity: cardOpacity,
                     zIndex: zIdx,
-                    transition: isWrapping ? 'none' : 'all 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                    transition: isWrapping ? 'none' : 'all 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
                     pointerEvents: visible ? 'auto' : 'none',
                   }}
                   role="group"
@@ -171,7 +173,7 @@ export default function HomePage() {
           {/* Nav Arrows */}
           <button
             style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', zIndex: 20, width: '40px', height: '40px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', cursor: 'pointer', transition: 'all 0.3s ease' }}
-            onClick={() => { clearInterval(autoPlayRef.current); goPrev(); autoPlayRef.current = setInterval(goNext, 3500); }}
+            onClick={() => { clearInterval(autoPlayRef.current); goPrev(); autoPlayRef.current = setInterval(goNext, 5000); }}
             onMouseEnter={(e) => e.currentTarget.style.background = '#0061b0'}
             onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0,0,0,0.5)'}
             aria-label="Previous"
@@ -180,7 +182,7 @@ export default function HomePage() {
           </button>
           <button
             style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', zIndex: 20, width: '40px', height: '40px', background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', cursor: 'pointer', transition: 'all 0.3s ease' }}
-            onClick={() => { clearInterval(autoPlayRef.current); goNext(); autoPlayRef.current = setInterval(goNext, 3500); }}
+            onClick={() => { clearInterval(autoPlayRef.current); goNext(); autoPlayRef.current = setInterval(goNext, 5000); }}
             onMouseEnter={(e) => e.currentTarget.style.background = '#0061b0'}
             onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(0,0,0,0.5)'}
             aria-label="Next"
@@ -200,7 +202,7 @@ export default function HomePage() {
                     const currentPos = cardPositions[i];
                     const shift = -currentPos;
                     setCardPositions(prev => prev.map(p => p + shift));
-                    autoPlayRef.current = setInterval(goNext, 3500);
+                    autoPlayRef.current = setInterval(goNext, 5000);
                   }}
                   style={{
                     width: isCentered ? '24px' : '8px',
@@ -221,47 +223,88 @@ export default function HomePage() {
       </section>
 
       {/* We've Worked With Section */}
-      <section style={{ padding: '120px 32px', position: 'relative' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: 'clamp(40px, 6vw, 70px)', fontWeight: 'bold', color: 'white', lineHeight: 1.1, textAlign: 'center', marginBottom: '64px' }}>
+      <style>{`
+        @keyframes clientScroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .client-carousel-track {
+          display: flex;
+          gap: 80px;
+          animation: clientScroll 45s linear infinite;
+          width: max-content;
+        }
+        .client-carousel-track:hover {
+          animation-play-state: paused;
+        }
+        .client-card {
+          width: 200px;
+          height: 205px;
+          border-radius: 15px;
+          border: 2px solid #0061b0;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0,97,176,0.25);
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .client-card:nth-child(odd) { transform: rotate(-5.5deg); }
+        .client-card:nth-child(even) { transform: rotate(16.52deg); }
+        .client-card:hover {
+          transform: rotate(0deg) scale(1.08) !important;
+          box-shadow: 0 15px 40px rgba(0,97,176,0.4);
+        }
+        .client-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+        .client-card:hover img {
+          transform: scale(1.1);
+        }
+        @media(min-width:768px) {
+          .client-card { width: 240px; height: 246px; }
+        }
+        @media(min-width:1024px) {
+          .client-card { width: 280px; height: 288px; }
+          .client-carousel-track { gap: 120px; }
+        }
+      `}</style>
+      <section style={{ padding: '120px 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto 64px', padding: '0 32px' }}>
+          <h2 style={{ fontSize: 'clamp(40px, 6vw, 70px)', fontWeight: 'bold', color: 'white', lineHeight: 1.1, textAlign: 'center' }}>
             We've Worked With
           </h2>
+        </div>
 
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '48px', flexWrap: 'wrap' }}>
-            <div style={{ width: '190px', height: '240px', borderRadius: '16px', border: '2px solid #0061b0', overflow: 'hidden', boxShadow: '0 15px 40px rgba(0,97,176,0.3)', transform: 'rotate(-6deg)', transition: 'all 0.5s ease', cursor: 'pointer' }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotate(0deg) scale(1.05)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'rotate(-6deg) scale(1)'; }}
-            >
-              <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=500&h=600&fit=crop" alt="Client 1" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'} />
-            </div>
-
-            <div style={{ width: '190px', height: '240px', borderRadius: '16px', border: '2px solid #0061b0', overflow: 'hidden', boxShadow: '0 15px 40px rgba(0,97,176,0.3)', transform: 'rotate(3deg)', transition: 'all 0.5s ease', cursor: 'pointer' }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotate(0deg) scale(1.05)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'rotate(3deg) scale(1)'; }}
-            >
-              <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=500&h=600&fit=crop" alt="Client 2" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'} />
-            </div>
-
-            <div style={{ width: '190px', height: '240px', borderRadius: '16px', border: '2px solid #0061b0', overflow: 'hidden', boxShadow: '0 15px 40px rgba(0,97,176,0.3)', transform: 'rotate(-3deg)', transition: 'all 0.5s ease', cursor: 'pointer' }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotate(0deg) scale(1.05)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'rotate(-3deg) scale(1)'; }}
-            >
-              <img src="https://images.unsplash.com/photo-1554080353-a576cf803bda?w=500&h=600&fit=crop" alt="Client 3" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'} />
-            </div>
-
-            <div style={{ width: '190px', height: '240px', borderRadius: '16px', border: '2px solid #0061b0', overflow: 'hidden', boxShadow: '0 15px 40px rgba(0,97,176,0.3)', transform: 'rotate(6deg)', transition: 'all 0.5s ease', cursor: 'pointer' }}
-              onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotate(0deg) scale(1.05)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = 'rotate(6deg) scale(1)'; }}
-            >
-              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&h=600&fit=crop" alt="Client 4" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'} />
-            </div>
+        <div style={{ width: '100%', overflow: 'hidden', padding: '60px 0', maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
+          <div className="client-carousel-track" style={{ alignItems: 'center' }}>
+            {[
+              'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1554080353-a576cf803bda?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1554080353-a576cf803bda?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=500&h=650&fit=crop',
+              'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=650&fit=crop',
+            ].map((src, i) => (
+              <div key={i} className="client-card">
+                <img src={src} alt={`Client ${(i % 6) + 1}`} loading="lazy" />
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Design That Speak Section */}
-      <section style={{ padding: '120px 32px', position: 'relative' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <section style={{ padding: '120px 80px', position: 'relative' }}>
+        <div style={{ width: '100%' }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <h2 style={{ fontSize: 'clamp(40px, 6vw, 70px)', fontWeight: 'bold', lineHeight: 1.1, marginBottom: '24px' }}>
               <span style={{ color: 'white' }}>Design That Speak for </span>
@@ -274,36 +317,36 @@ export default function HomePage() {
           </div>
 
           {/* Design Portfolio Grid */}
-          <div style={{ maxWidth: '900px', margin: '0 auto 48px' }}>
-            {/* Top Row */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginBottom: '12px' }}>
+          <div style={{ width: '100%', marginBottom: '48px' }}>
+            {/* Top Row — 5 cards with varying widths */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr 1fr 0.8fr 1.2fr', gap: '12px', marginBottom: '12px' }}>
               {[
-                'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=400&fit=crop',
-                'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=400&fit=crop',
-                'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400&h=400&fit=crop',
-                'https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=400&fit=crop',
-                'https://images.unsplash.com/photo-1542744094-3a31f272c490?w=400&h=400&fit=crop'
-              ].map((src, i) => (
-                <div key={i} style={{ aspectRatio: '1', borderRadius: '12px', overflow: 'hidden', border: '2px solid #0061b0', cursor: 'pointer', transition: 'all 0.3s ease' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.borderColor = '#0078d4'; }}
+                { src: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop', ratio: '3/2' },
+                { src: 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=400&fit=crop', ratio: '1/1' },
+                { src: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500&h=400&fit=crop', ratio: '5/4' },
+                { src: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=400&h=400&fit=crop', ratio: '1/1' },
+                { src: 'https://images.unsplash.com/photo-1542744094-3a31f272c490?w=600&h=400&fit=crop', ratio: '3/2' },
+              ].map((item, i) => (
+                <div key={i} style={{ aspectRatio: item.ratio, borderRadius: '12px', overflow: 'hidden', border: '2px solid #0061b0', cursor: 'pointer', transition: 'all 0.3s ease' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.borderColor = '#0078d4'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.borderColor = '#0061b0'; }}
                 >
-                  <img src={src} alt={`Design ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'filter 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'} />
+                  <img src={item.src} alt={`Design ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'filter 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'} />
                 </div>
               ))}
             </div>
-            {/* Bottom Row */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
+            {/* Bottom Row — 3 cards with varying widths */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '12px' }}>
               {[
-                'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=400&fit=crop',
-                'https://images.unsplash.com/photo-1557838923-2985c318be48?w=400&h=400&fit=crop',
-                'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=400&h=400&fit=crop'
-              ].map((src, i) => (
-                <div key={i} style={{ aspectRatio: '1', borderRadius: '12px', overflow: 'hidden', border: '2px solid #0061b0', cursor: 'pointer', transition: 'all 0.3s ease' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.borderColor = '#0078d4'; }}
+                { src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=500&h=400&fit=crop', ratio: '5/4' },
+                { src: 'https://images.unsplash.com/photo-1557838923-2985c318be48?w=700&h=400&fit=crop', ratio: '7/4' },
+                { src: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500&h=400&fit=crop', ratio: '5/4' },
+              ].map((item, i) => (
+                <div key={i} style={{ aspectRatio: item.ratio, borderRadius: '12px', overflow: 'hidden', border: '2px solid #0061b0', cursor: 'pointer', transition: 'all 0.3s ease' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.borderColor = '#0078d4'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.borderColor = '#0061b0'; }}
                 >
-                  <img src={src} alt={`Design ${i + 6}`} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'filter 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'} />
+                  <img src={item.src} alt={`Design ${i + 6}`} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'filter 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'} />
                 </div>
               ))}
             </div>
@@ -325,7 +368,7 @@ export default function HomePage() {
 
       {/* Website That Speak Section */}
       <section style={{ padding: '120px 32px', position: 'relative' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <h2 style={{ fontSize: 'clamp(40px, 6vw, 70px)', fontWeight: 'bold', lineHeight: 1.1, marginBottom: '24px' }}>
               <span style={{ color: 'white' }}>Website That Speak </span>
@@ -338,24 +381,28 @@ export default function HomePage() {
           </div>
 
           {/* Website Showcase */}
-          <div style={{ maxWidth: '900px', margin: '0 auto 48px' }}>
-            <div style={{ background: 'linear-gradient(135deg, rgba(0,97,176,0.1), transparent)', border: '2px solid #0061b0', borderRadius: '20px', padding: '48px 32px', textAlign: 'center' }}>
-              <h3 style={{ fontSize: 'clamp(28px, 4vw, 36px)', fontWeight: 'bold', color: 'white', marginBottom: '32px' }}>
+          <div style={{ width: '100%', marginBottom: '48px' }}>
+            <div style={{ background: 'linear-gradient(135deg, rgba(0,97,176,0.1), transparent)', border: '2px solid #0061b0', borderRadius: '20px', padding: '48px 40px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+              {/* Blue glow effects */}
+              <div style={{ position: 'absolute', top: '50%', left: '-5%', width: '300px', height: '100%', background: 'radial-gradient(ellipse, rgba(0,97,176,0.15), transparent 70%)', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+              <div style={{ position: 'absolute', top: '50%', right: '-5%', width: '300px', height: '100%', background: 'radial-gradient(ellipse, rgba(0,97,176,0.15), transparent 70%)', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+
+              <h3 style={{ fontSize: 'clamp(28px, 4vw, 36px)', fontWeight: 'bold', color: 'white', marginBottom: '32px', position: 'relative', zIndex: 1 }}>
                 E - Commerce Website
               </h3>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', position: 'relative', zIndex: 1 }}>
                 <div style={{ borderRadius: '14px', border: '2px solid #0061b0', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease' }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >
-                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop" alt="E-commerce Dashboard" style={{ width: '100%', height: 'auto', objectFit: 'cover', transition: 'filter 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'} />
+                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&h=900&fit=crop" alt="E-commerce Dashboard" style={{ width: '100%', height: '100%', objectFit: 'cover', aspectRatio: '3/4', transition: 'filter 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'} />
                 </div>
                 <div style={{ borderRadius: '14px', border: '2px solid #0061b0', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease' }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 >
-                  <img src="https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop" alt="E-commerce Services" style={{ width: '100%', height: 'auto', objectFit: 'cover', transition: 'filter 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'} />
+                  <img src="https://images.unsplash.com/photo-1557821552-17105176677c?w=900&h=900&fit=crop" alt="E-commerce Services" style={{ width: '100%', height: '100%', objectFit: 'cover', aspectRatio: '3/4', transition: 'filter 0.3s ease' }} onMouseEnter={(e) => e.currentTarget.style.filter = 'brightness(1.1)'} onMouseLeave={(e) => e.currentTarget.style.filter = 'brightness(1)'} />
                 </div>
               </div>
             </div>
