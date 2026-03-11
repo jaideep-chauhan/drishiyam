@@ -114,7 +114,7 @@ export default function HomePage() {
         @media(min-width:1024px){.hero-carousel{height:520px}.hero-card{width:320px;height:430px}}
       `}</style>
 
-      <section style={{ paddingTop: '100px', paddingBottom: '40px', paddingLeft: '0', paddingRight: '0', position: 'relative', width: '100%' }}>
+      <section style={{ paddingTop: '100px', paddingBottom: '0px', paddingLeft: '0', paddingRight: '0', position: 'relative', width: '100%' }}>
         {/* Text Content */}
         <div style={{ position: 'relative', zIndex: 10, width: '100%', maxWidth: '900px', margin: '0 auto 40px', textAlign: 'center' }}>
           <h1 style={{ fontSize: 'clamp(40px, 6vw, 72px)', fontWeight: 'bold', color: 'white', lineHeight: 1.15, marginBottom: '28px', fontFamily: "'Inter', sans-serif" }}>
@@ -124,6 +124,21 @@ export default function HomePage() {
             If you're a busy creator with no time to edit or post consistently on social media but still recognize the need to grow your brand faster, then this is for you.
           </p>
         </div>
+
+        {/* Spark Light Behind Carousel */}
+        <div style={{
+          position: 'absolute',
+          left: '50%',
+          bottom: '-50px',
+          transform: 'translateX(-50%)',
+          width: '140%',
+          maxWidth: '1800px',
+          height: '700px',
+          background: 'radial-gradient(ellipse at center bottom, rgba(0,97,176,1) 0%, rgba(0,150,255,0.7) 15%, rgba(0,97,176,0.5) 30%, rgba(0,97,176,0.2) 55%, transparent 75%)',
+          pointerEvents: 'none',
+          zIndex: 5,
+          filter: 'blur(30px)',
+        }} />
 
         {/* Animated Carousel */}
         <div
@@ -190,35 +205,6 @@ export default function HomePage() {
             <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
           </button>
 
-          {/* Dot Indicators */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '32px', position: 'relative', zIndex: 20 }}>
-            {CARDS.map((_, i) => {
-              const isCentered = cardPositions[i] === 0;
-              return (
-                <button
-                  key={i}
-                  onClick={() => {
-                    clearInterval(autoPlayRef.current);
-                    const currentPos = cardPositions[i];
-                    const shift = -currentPos;
-                    setCardPositions(prev => prev.map(p => p + shift));
-                    autoPlayRef.current = setInterval(goNext, 5000);
-                  }}
-                  style={{
-                    width: isCentered ? '24px' : '8px',
-                    height: '8px',
-                    borderRadius: '4px',
-                    background: isCentered ? '#0061b0' : 'rgba(255,255,255,0.3)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    padding: 0,
-                  }}
-                  aria-label={`Go to slide ${i + 1}`}
-                />
-              );
-            })}
-          </div>
         </div>
       </section>
 
@@ -271,8 +257,23 @@ export default function HomePage() {
           .client-carousel-track { gap: 120px; }
         }
       `}</style>
-      <section style={{ padding: '120px 0', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto 64px', padding: '0 32px' }}>
+      <section style={{ padding: '60px 0 120px', position: 'relative' }}>
+        {/* Spark Light at Top */}
+        <div style={{
+          position: 'absolute',
+          left: '50%',
+          top: '-100px',
+          transform: 'translateX(-50%)',
+          width: '140%',
+          maxWidth: '1800px',
+          height: '800px',
+          background: 'radial-gradient(ellipse at center top, rgba(0,97,176,1) 0%, rgba(0,150,255,0.7) 15%, rgba(0,97,176,0.5) 30%, rgba(0,97,176,0.2) 55%, transparent 75%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+          filter: 'blur(30px)',
+        }} />
+
+        <div style={{ maxWidth: '1200px', margin: '0 auto 64px', padding: '0 32px', position: 'relative', zIndex: 1 }}>
           <h2 style={{ fontSize: 'clamp(40px, 6vw, 70px)', fontWeight: 'bold', color: 'white', lineHeight: 1.1, textAlign: 'center' }}>
             We've Worked With
           </h2>
@@ -368,7 +369,32 @@ export default function HomePage() {
 
       {/* Website That Speak Section */}
       <section style={{ padding: '120px 32px', position: 'relative' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        {/* Top-Left Glow */}
+        <div style={{
+          position: 'absolute',
+          top: '-150px',
+          left: '0',
+          width: '50%',
+          height: '700px',
+          background: 'radial-gradient(ellipse at left top, rgba(0,97,176,1) 0%, rgba(0,150,255,0.6) 15%, rgba(0,97,176,0.3) 40%, transparent 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }} />
+        {/* Bottom-Right Glow */}
+        <div style={{
+          position: 'absolute',
+          bottom: '-150px',
+          right: '0',
+          width: '50%',
+          height: '700px',
+          background: 'radial-gradient(ellipse at right bottom, rgba(0,97,176,1) 0%, rgba(0,150,255,0.6) 15%, rgba(0,97,176,0.3) 40%, transparent 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }} />
+
+        <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <h2 style={{ fontSize: 'clamp(40px, 6vw, 70px)', fontWeight: 'bold', lineHeight: 1.1, marginBottom: '24px' }}>
               <span style={{ color: 'white' }}>Website That Speak </span>
@@ -489,7 +515,22 @@ export default function HomePage() {
 
       {/* Testimonials Section */}
       <section style={{ padding: '120px 32px', position: 'relative' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Left Edge Glow - curves inward ~45% */}
+        <div style={{
+          position: 'absolute',
+          top: '-40px',
+          left: '-20px',
+          width: '45%',
+          height: 'calc(100% + 80px)',
+          background: 'linear-gradient(to right, rgba(0,97,176,0.9) 0%, rgba(0,150,255,0.55) 12%, rgba(0,97,176,0.3) 35%, rgba(0,97,176,0.08) 65%, transparent 100%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+          maskImage: 'radial-gradient(ellipse 100% 60% at 0% 50%, black 0%, black 40%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 100% 60% at 0% 50%, black 0%, black 40%, transparent 100%)',
+        }} />
+
+        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <h2 style={{ fontSize: 'clamp(40px, 6vw, 70px)', fontWeight: 'bold', lineHeight: 1.1, marginBottom: '24px' }}>
               <span style={{ color: 'white' }}>Hear it directly from our </span>

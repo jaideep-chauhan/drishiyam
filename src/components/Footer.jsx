@@ -13,11 +13,30 @@ export default function Footer() {
   };
 
   return (
-    <footer style={{ background: '#000', borderTop: '1px solid white', padding: '48px 0 24px' }} id="footer" data-name="footer">
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 32px' }}>
+    <footer style={{ position: 'relative', overflow: 'hidden', padding: '80px 0 24px' }} id="footer" data-name="footer">
+      {/* Vertical Blue Light Streaks Background */}
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, #000000 0%, #001a33 15%, #00264d 50%, #001a33 100%)', zIndex: 0 }}>
+        {Array.from({ length: 14 }).map((_, i) => (
+          <div key={i} style={{
+            position: 'absolute',
+            top: 0,
+            left: `${(i / 14) * 100}%`,
+            width: `${100 / 14}%`,
+            height: '100%',
+            background: `linear-gradient(to bottom, transparent 0%, rgba(0,97,176,${0.15 + Math.sin(i * 0.8) * 0.08}) 15%, rgba(0,97,176,${0.25 + Math.sin(i * 1.2) * 0.1}) 40%, rgba(0,97,176,${0.2 + Math.cos(i * 0.6) * 0.08}) 65%, rgba(0,97,176,${0.12 + Math.sin(i) * 0.06}) 100%)`,
+            borderLeft: `1px solid rgba(0,97,176,${0.1 + Math.sin(i * 1.5) * 0.05})`,
+            borderRight: `1px solid rgba(0,97,176,${0.06 + Math.cos(i * 1.3) * 0.03})`,
+            opacity: 0.5 + Math.sin(i * 0.9) * 0.5,
+          }} />
+        ))}
+        {/* Soft center glow */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center 45%, rgba(0,97,176,0.2) 0%, transparent 55%)', pointerEvents: 'none' }} />
+      </div>
+
+      <div style={{ width: '100%', padding: '0 64px', position: 'relative', zIndex: 1 }}>
         {/* Call to Action */}
-        <div style={{ marginBottom: '40px' }}>
-          <h2 className="text-[28px] md:text-[32px] font-bold text-white">
+        <div style={{ marginBottom: '60px' }}>
+          <h2 style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 'bold', color: 'white', lineHeight: 1.1, fontFamily: "'Inter', sans-serif" }}>
             Ready to Make Your Brand Stand Out?
           </h2>
         </div>
